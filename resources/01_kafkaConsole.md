@@ -13,6 +13,11 @@ bin/zookeeper-server-start.sh config/zookeeper.properties
 bin/kafka-server-start.sh config/server.properties
 ```
 
+- Command to create a topic.
+```
+bin/kafka-topics.sh --create --topic quickstart-events --bootstrap-server localhost:9092
+```
+
 - Command to start one Kafka producer
 ```
 bin/kafka-console-producer.sh --topic quickstart-events --bootstrap-server localhost:9092

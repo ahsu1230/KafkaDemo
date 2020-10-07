@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="ERROR">
+    <Appenders>
+        <!-- Formats the output to this pattern -->
+        <Console name="stdout" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%d] (%c) - %p %m %n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <!-- Defined 3 loggers (Root, Kafka, Application) -->
+        <!-- All 3 use ConsoleLogger, so all will format output -->
+        <!-- Show only ERRORS to stdout-->
+        <Root level="error">
+            <AppenderRef ref="stdout"/>
+        </Root>
+        <!-- Show only WARNINGS from kafka package to stdout -->
+        <Logger name="org.apache.kafka.clients" level="warn" additivity="false">
+            <AppenderRef ref="stdout"/>
+        </Logger>
+        <!-- Show everything logged by our application to stdout -->
+        <Logger name="projects.ahsu.examples" level="all" additivity="false">
+            <AppenderRef ref="stdout"/>
+        </Logger>
+    </Loggers>
+</Configuration>
