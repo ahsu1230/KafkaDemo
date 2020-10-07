@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/3.6.3 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>projects.ahsu</groupId>
-    <artifactId>examples</artifactId>
+    <groupId>samples</groupId>
+    <artifactId>producers</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <build>

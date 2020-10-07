@@ -1,4 +1,4 @@
-package projects.ahsu.examples;
+package samples.producers;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -10,6 +10,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.util.Properties;
 
+/**
+ * This is an introduction to Kafka Clients, specifically a Kafka Producer.
+ * A Producer is a short software to be run on top of Zookeeper, and Kafka services to create messages
+ * to be sent towards a topic (specified in Run Configurations).
+ * You can create a custom Consumer or just run the consumer script to subscribe to the specified topic
+ * and spit out received messages.
+ */
 public class HelloProducer {
     private static final Logger LOGGER = LogManager.getLogger(HelloProducer.class);
 

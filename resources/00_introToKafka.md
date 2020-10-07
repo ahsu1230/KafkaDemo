@@ -55,5 +55,4 @@ Most databases are good for managing data about objects / entities.
 - Another type of server in a Kafka cluster. These servers continuously import/export data as event streams into / out of Kafka clusters.
 
 ### Kafka Stream (Client Consumption)
-- API library for clients to consume data from Kafka. Available in Java, Scala.
-- Clients are other webservers who are looking / querying for data.
+- API library for clients to consume data from Kafka cluster. Available in Java, Scala.
