@@ -56,3 +56,4 @@ Most databases are good for managing data about objects / entities.
 
 ### Kafka Stream (Client Consumption)
 - API library for clients to consume data from Kafka cluster. Available in Java, Scala.
+- Creating Kafka clients are available in any language (C, Go, Javascript, Python, etc.)
