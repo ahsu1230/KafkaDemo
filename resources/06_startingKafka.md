@@ -10,7 +10,7 @@ Event Streaming Management platform. Start Kafka clusters and let Confluent Plat
 https://docs.confluent.io/current/platform.html
 
 
-# Running Kafka locally via Docker
+## Running Kafka locally via Docker
 
 - Follow guide linked above
 - Run `docker-compose up -d` at correct directory
@@ -19,7 +19,7 @@ https://docs.confluent.io/current/platform.html
 - When it is up, select CO Cluster1, and add topics!
 - ... stopped... can't continue because `connect` container keeps failing.
 
-# Running Kafka locally
+## Running Kafka locally
 
 - Follow guide linked above
 - Download zip and unzip
@@ -28,3 +28,9 @@ https://docs.confluent.io/current/platform.html
 - Run `confluent local services start` to start all services!
   - The services that should be running are:
   - Zookeeper, Kafka, Schema Registry, Kafka REST, Connect, KSQL Server, Control Center
+
+## Followed Confluent Wikipedia demo
+ https://docs.confluent.io/current/tutorials/cp-demo/docs/index.html?utm_source=github&utm_medium=demo&utm_campaign=ch.cp-demo_type.community_content.cp-demo#confluent-platform-demo-cp-demo
+
+## Followed build your own demos (also using cp-all-in-one)
+https://docs.confluent.io/current/tutorials/build-your-own-demos.html#on-premises
