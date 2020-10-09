@@ -1,0 +1,61 @@
+@import '../_constants.sass'
+
+#add-user
+    width: 60vw
+    margin: 4vh auto
+    padding: 4vh 6vw 8vh
+    background-color: $colorWhite
+    border-radius: 8px
+    box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.2)
+
+    h2
+        margin-bottom: 4vh
+        text-align: left
+    
+    .add-user-form
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+        align-items: flex-end
+        text-align: left
+        
+    h4
+        margin: 0 0 1vh
+        line-height: $lineHeight0
+        font-size: $fontSize0
+
+    .username input
+        width: 24vh
+        height: 4vh
+        padding: 0.5vh
+        border-radius: 4px
+        border: 1px solid $colorBlack
+        box-sizing: border-box
+
+        &:active, &:focus
+            border: 2px solid $colorAccent
+
+    .level select
+        width: 16vh
+        height: 4vh
+        padding: 0.5vh
+        border: 1px solid $colorBlack
+        border-radius: 4px
+        box-sizing: border-box
+        outline: none
+
+        &:active, &:focus
+            border: 2px solid $colorAccent
+    
+    button
+        padding: 1.5vmin 2vmin
+        border-radius: 8px
+        border: none
+        outline: none
+        font-size: $fontSize0
+        background-color: $colorAccent
+        color: $colorWhite
+
+        &:hover
+            filter: brightness(1.1)
+            cursor: pointer
