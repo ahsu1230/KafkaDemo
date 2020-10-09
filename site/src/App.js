@@ -9,46 +9,53 @@ import { USER_NORMAL, USER_QUEUED, USER_MATCHED } from "./userStates.js";
 
 class App extends React.Component {
     state = {
-        userList: [
-            {
-                id: 1,
-                username: "ahsu",
-                level: 5,
-                isOnline: true,
-                state: USER_NORMAL,
-            },
-            {
-                id: 10,
-                username: "BSJ",
-                level: 8,
-                isOnline: true,
-                state: USER_MATCHED,
-                stateChangedAt: moment(),
-            },
-        ],
-        matchList: [
-            {
-                id: 1,
-                startedAt: moment(),
-                users: [
-                    { id: 4, username: "Ana", level: 4 },
-                    { id: 5, username: "Jerax", level: 4 },
-                    { id: 6, username: "Topson", level: 4 },
-                ],
-            },
-            {
-                id: 2,
-                startedAt: moment(),
-                users: [
-                    { id: 7, username: "Kuroky", level: 7 },
-                    { id: 8, username: "Miracle", level: 6 },
-                    { id: 9, username: "MindControl", level: 6 },
-                ],
-            },
-        ],
+        userList: [],
+        matchList: [],
         userIdIncr: 2,
         matchIdIncr: 3,
     };
+
+    componentDidMount() {
+        this.setState({
+            userList: [
+                {
+                    id: 1,
+                    username: "ahsu",
+                    level: 5,
+                    isOnline: true,
+                    state: USER_NORMAL,
+                },
+                {
+                    id: 10,
+                    username: "BSJ",
+                    level: 8,
+                    isOnline: true,
+                    state: USER_MATCHED,
+                    stateChangedAt: moment(),
+                }
+            ],
+            matchList: [
+                {
+                    id: 1,
+                    startedAt: moment(),
+                    users: [
+                        { id: 4, username: "Ana", level: 4 },
+                        { id: 5, username: "Jerax", level: 4 },
+                        { id: 6, username: "Topson", level: 4 },
+                    ],
+                },
+                {
+                    id: 2,
+                    startedAt: moment(),
+                    users: [
+                        { id: 7, username: "Kuroky", level: 7 },
+                        { id: 8, username: "Miracle", level: 6 },
+                        { id: 9, username: "MindControl", level: 6 },
+                    ],
+                }
+            ]
+        });
+    }
 
     onAddUser = (user) => {
         this.state.userList.push(user);
@@ -67,6 +74,9 @@ class App extends React.Component {
     };
 
     onCreateMatch = (match) => {
+        // TODO: This should be automatic from webserver
+        // When enough users are queued on backend, 
+        // we need to be alerted that a match has been created!
         const users = match.users;
 
         // change state of all users in match
