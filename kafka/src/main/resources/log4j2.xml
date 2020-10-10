@@ -17,8 +17,13 @@
         <Logger name="org.apache.kafka.clients" level="warn" additivity="false">
             <AppenderRef ref="stdout"/>
         </Logger>
+
         <!-- Show everything logged by our application to stdout -->
-        <Logger name="samples.producers" level="all" additivity="false">
+        <Logger name="samples.producers" level="trace" additivity="false">
+            <AppenderRef ref="stdout"/>
+        </Logger>
+        <!-- Show everything logged by our application to stdout -->
+        <Logger name="services" level="all" additivity="false">
             <AppenderRef ref="stdout"/>
         </Logger>
     </Loggers>
