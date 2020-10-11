@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 public class UserStore {
     /**
      * This is very ghetto. Don't do this.
+     * TODO: Ideally, we want this to use KafkaConnect and use a real DBstore like MySQL.
      */
     private static Map<Long, User> userMap = new HashMap<>();
 

@@ -20,8 +20,8 @@ public class User {
     @JsonProperty("queueState")
     public String queueState;
 
-    @JsonProperty("queuedAt")
-    public Date queuedAt;
+    @JsonProperty("queueStateUpdatedAt")
+    public Date queueStateUpdatedAt;
 
     public static String QUEUE_STATE_NORMAL = "normal";
     public static String QUEUE_STATE_QUEUED = "queued";

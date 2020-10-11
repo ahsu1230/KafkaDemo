@@ -1,15 +1,17 @@
 import React from "react";
+import moment from "moment";
 import { Transition } from "react-transition-group";
 import "./matchList.sass";
 
 class MatchList extends React.Component {
     render() {
-        const matches = this.props.matches || [];
+        const matches = (this.props.matches || []).reverse();
         const items = matches.map((match, index) => (
             <MatchRow
                 key={index}
                 in={true}
                 match={match}
+                userMap={this.props.userMap}
                 onEndMatch={this.props.onEndMatch}
             />
         ));
@@ -40,7 +42,7 @@ const transitionStyles = {
 
 class MatchRow extends React.Component {
     state = {
-        winnerId: this.props.match.users[0].id,
+        winnerId: 0,
     };
 
     onChangeWinner = (winnerId) => {
@@ -56,19 +58,21 @@ class MatchRow extends React.Component {
 
     render() {
         const match = this.props.match;
-        const userItems = (match.users || []).map((user, index) => (
+        const userMap = this.props.userMap || {};
+        const fullUsers = (match.userIds || []).map(userId => userMap[userId]).filter(user => !!user);
+        const userItems = fullUsers.map((user, index) => (
             <div className="user-row" key={index}>
                 <span>userId: {user.id}</span>
                 <span>{user.username}</span>
                 <span>Level {user.level}</span>
-                <div className="winner">
+                {/* <div className="winner">
                     <input
                         type="radio"
                         onChange={() => this.onChangeWinner(user.id)}
                         checked={this.state.winnerId == user.id}
                     />
                     <span>Winner</span>
-                </div>
+                </div> */}
             </div>
         ));
         return (
@@ -83,11 +87,17 @@ class MatchRow extends React.Component {
                         <div className="header">
                             <div>
                                 <h3>Match Id: {match.id}</h3>
-                                <h4>
-                                    Match started {match.startedAt.fromNow()}
-                                </h4>
+                                {
+                                    match.endedAt ? 
+                                    <h4>Match ended {moment(match.endedAt).fromNow()}</h4> : 
+                                    <h4>Match started {moment(match.startedAt).fromNow()}</h4>
+                                }
                             </div>
-                            <button onClick={this.onEndMatch}>End Match</button>
+                            {   
+                                match.endedAt ?
+                                <span className="finished">Match Finished</span> :
+                                <button onClick={this.onEndMatch}>End Match</button>
+                            }
                         </div>
 
                         <div>{userItems}</div>

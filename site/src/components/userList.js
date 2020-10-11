@@ -16,14 +16,14 @@ class UserList extends React.Component {
     };
 
     onQueueUser = (user) => {
-        user.state = USER_QUEUED;
-        user.stateChangedAt = moment();
+        user.queueState = USER_QUEUED;
+        user.queueStateUpdatedAt = moment().toJSON();
         this.props.onUpdateUser(user);
     };
 
     onDequeueUser = (user) => {
-        user.state = USER_NORMAL;
-        user.stateChangedAt = moment();
+        user.queueState = USER_NORMAL;
+        user.queueStateUpdatedAt = moment().toJSON();
         this.props.onUpdateUser(user);
     };
 
@@ -97,17 +97,17 @@ class UserStateButton extends React.Component {
 
         return (
             <div className="state">
-                {user.state == USER_NORMAL && (
+                {user.queueState == USER_NORMAL && (
                     <button
                         className="action-queue"
                         onClick={() => this.props.onQueue(user)}>
                         Queue
                     </button>
                 )}
-                {user.state == USER_QUEUED && (
+                {user.queueState == USER_QUEUED && (
                     <span className="state-queued">
                         <span>
-                            Queued {user.stateChangedAt.fromNow() + "..."}
+                            Queued {moment(user.queueStateUpdatedAt).fromNow() + "..."}
                         </span>
                         <button
                             className="action-dequeue"
@@ -116,9 +116,9 @@ class UserStateButton extends React.Component {
                         </button>
                     </span>
                 )}
-                {user.state == USER_MATCHED && (
+                {user.queueState == USER_MATCHED && (
                     <span className="state-matched">
-                        Started match {user.stateChangedAt.fromNow()}
+                        Started match {moment(user.queueStateUpdatedAt).fromNow()}
                     </span>
                 )}
             </div>

@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 public class MatchStore {
     /**
      * This is very ghetto. Don't do this.
+     * TODO: Ideally, we want this to use KafkaConnect and use a real DBstore like MySQL.
      */
     private static Map<String, Match> matchMap = new HashMap<>();
 
@@ -21,7 +22,7 @@ public class MatchStore {
         List<Match> matches = matchMap.entrySet().stream()
                 .map(entry -> entry.getValue())
                 .collect(Collectors.toList());
-        matches.sort(Comparator.comparing(Match::getCreatedAt));
+        matches.sort(Comparator.comparing(Match::getStartedAt));
         return matches;
     }
 

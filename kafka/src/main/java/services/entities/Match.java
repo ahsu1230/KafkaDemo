@@ -10,21 +10,25 @@ public class Match {
     @JsonProperty("id")
     public String id;
 
-    @JsonProperty("users")
-    public List<User> users;
-
-    @JsonProperty("createdAt")
-    public Date createdAt;
+    @JsonProperty("startedAt")
+    public Date startedAt;
 
     @Nullable
     @JsonProperty("endedAt")
     public Date endedAt;
 
-    public Date getCreatedAt() {
-        return createdAt;
+    @JsonProperty("userIds")
+    public List<Long> userIds;
+
+    public Date getStartedAt() {
+        return startedAt;
     }
 
     public Date getEndedAt() {
         return endedAt;
+    }
+
+    public List<Long> getUserIds() {
+        return userIds;
     }
 }

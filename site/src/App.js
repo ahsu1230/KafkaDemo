@@ -1,103 +1,80 @@
 import React from "react";
 import "./App.sass";
-import { findIndex, remove } from "lodash";
+import { findIndex, keyBy, remove } from "lodash";
 import moment from "moment";
+import API from "./utils/api.js";
 import UserAddSection from "./components/userAdd.js";
 import UserList from "./components/userList.js";
 import MatchList from "./components/matchList.js";
+import SyncNotif from "./components/syncing.js";
 import { USER_NORMAL, USER_QUEUED, USER_MATCHED } from "./userStates.js";
 
 class App extends React.Component {
     state = {
         userList: [],
         matchList: [],
-        userIdIncr: 2,
-        matchIdIncr: 3,
+        userIdIncr: 1,
+        matchIdIncr: 1,
+        syncing: false,
     };
 
     componentDidMount() {
-        this.setState({
-            userList: [
-                {
-                    id: 1,
-                    username: "ahsu",
-                    level: 5,
-                    isOnline: true,
-                    state: USER_NORMAL,
-                },
-                {
-                    id: 10,
-                    username: "BSJ",
-                    level: 8,
-                    isOnline: true,
-                    state: USER_MATCHED,
-                    stateChangedAt: moment(),
-                }
-            ],
-            matchList: [
-                {
-                    id: 1,
-                    startedAt: moment(),
-                    users: [
-                        { id: 4, username: "Ana", level: 4 },
-                        { id: 5, username: "Jerax", level: 4 },
-                        { id: 6, username: "Topson", level: 4 },
-                    ],
-                },
-                {
-                    id: 2,
-                    startedAt: moment(),
-                    users: [
-                        { id: 7, username: "Kuroky", level: 7 },
-                        { id: 8, username: "Miracle", level: 6 },
-                        { id: 9, username: "MindControl", level: 6 },
-                    ],
-                }
-            ]
-        });
+        this.fetchData();
+        this.interval = setInterval(() => {
+            this.setState({ syncing: true });
+            setTimeout(() => {
+                this.fetchData();
+            }, 2000);
+        }, 10000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
+
+    fetchData = () => {
+        API.fetchAllUsers()
+            .then(response => response.json())
+            .then(data => {
+                console.log("Success Users: " + JSON.stringify(data));
+                this.setState({
+                    userList: data,
+                });
+                API.fetchAllMatches()
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("Success Matches: " + JSON.stringify(data));
+                        this.setState({
+                            matchList: data,
+                            syncing: false,
+                        });
+                    })
+                    .catch(error => console.log("Error fetching all matches " + error));
+            })
+            .catch(error => console.log("Error fetching all users " + error));
     }
 
     onAddUser = (user) => {
-        this.state.userList.push(user);
-        this.setState({
-            userList: this.state.userList,
-            userIdIncr: this.state.userIdIncr + 1,
-        });
+        API.fetchUpsertUser(user)
+            .then(response => { 
+                this.setState({
+                    userIdIncr: this.state.userIdIncr + 1,
+                });
+                this.fetchData() 
+            })
+            .catch(error => console.log("Error adding user " + error));
     };
 
     onUpdateUser = (user) => {
-        let foundUserIndex = findIndex(this.state.userList, { id: user.id });
-        this.state.userList[foundUserIndex] = user;
-        this.setState({
-            userList: this.state.userList,
-        });
-    };
-
-    onCreateMatch = (match) => {
-        // TODO: This should be automatic from webserver
-        // When enough users are queued on backend, 
-        // we need to be alerted that a match has been created!
-        const users = match.users;
-
-        // change state of all users in match
-        users.forEach((user) => {
-            user.state = USER_MATCHED;
-        });
-
-        // add match to list of matches
-        this.state.matchList.push(match);
-        this.setState({
-            matchList: this.state.matchList,
-            matchIdIncr: this.state.matchIdIncr + 1,
-        });
+        API.fetchUpsertUser(user)
+            .then(response => { this.fetchData() })
+            .catch(error => console.log("Error updating user " + error));
     };
 
     onEndMatch = (match) => {
-        let matchList = this.state.matchList;
-        remove(matchList, { id: match.id });
-        this.setState({
-            matchList: matchList,
-        });
+        API.fetchEndMatch(match.id)
+            .then(response => { this.fetchData() })
+            .catch(error => console.log("Error ending match " + error))
     };
 
     render = () => {
@@ -117,12 +94,18 @@ class App extends React.Component {
                     />
                     <MatchList
                         matches={this.state.matchList}
+                        userMap={createUserMap(this.state.userList)}
                         onEndMatch={this.onEndMatch}
                     />
                 </main>
+                <SyncNotif syncing={this.state.syncing}/>
             </div>
         );
     };
 }
 
 export default App;
+
+function createUserMap(userList) {
+    return keyBy(userList, "id");
+}

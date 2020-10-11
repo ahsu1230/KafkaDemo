@@ -16,15 +16,11 @@ import static services.common.KafkaUtils.BOOTSTRAP_ADDRESS_LOCAL;
 public class UserProducer {
     private static final Logger LOGGER = LogManager.getLogger(UserProducer.class);
 
-    private String topic;
+    private static final String TOPIC = Topics.USER_INPUT;
     private boolean isClosed;
     private KafkaProducer<Long, User> producer;
 
     public UserProducer() {
-        this.topic = Topics.USER;
-        this.isClosed = false;
-
-        LOGGER.trace("Initializing Kafka Producer");
         Properties props = configureProperties();
         this.producer = new KafkaProducer<>(props);
     }
@@ -34,7 +30,8 @@ public class UserProducer {
             LOGGER.warn("Producer has been closed. No more productions allowed");
             return;
         }
-        producer.send(new ProducerRecord<>(topic, user.id, user));
+        producer.send(new ProducerRecord<>(TOPIC, user.id, user));
+        LOGGER.trace("Produce!");
     }
 
     public void close() {

@@ -1,1 +1,1 @@
-/opt/kafka/bin/kafka-topics.sh --create --topic topic-hello-producer --bootstrap-server localhost:9092
+/opt/kafka/bin/kafka-topics.sh --create --topic {} --bootstrap-server localhost:9092

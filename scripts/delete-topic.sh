@@ -1,0 +1,1 @@
+/opt/kafka/bin/kafka-topics.sh --delete --topic {} --bootstrap-server localhost:9092

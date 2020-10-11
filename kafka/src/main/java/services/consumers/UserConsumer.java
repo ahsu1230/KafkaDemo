@@ -22,12 +22,10 @@ import static services.common.KafkaUtils.BOOTSTRAP_ADDRESS_LOCAL;
 
 public class UserConsumer {
     private static final Logger LOGGER = LogManager.getLogger(UserConsumer.class);
-    private String topic;
     private KafkaConsumer<Long, User> consumer;
     private boolean isClosed;
 
     public UserConsumer() {
-        this.topic = Topics.USER;
         this.isClosed = false;
         Properties props = configureProperties();
         this.consumer = new KafkaConsumer<>(props);
@@ -39,12 +37,13 @@ public class UserConsumer {
             return;
         }
 
-        LOGGER.trace("Attempting to consume...");
+        LOGGER.trace("Consuming...");
         try {
-            consumer.subscribe(Collections.singleton(topic));
+            consumer.subscribe(Collections.singleton(Topics.USER_OUTPUT));
             ConsumerRecords<Long, User> records = consumer.poll(Duration.of(1000, ChronoUnit.MILLIS));
             for (ConsumerRecord<Long, User> record : records) {
-                UserStore.upsertUser(record.value());
+                User user = record.value();
+                UserStore.upsertUser(user);
             }
             LOGGER.trace("Consumed! " + records.count());
         } catch (KafkaException e) {
@@ -62,7 +61,7 @@ public class UserConsumer {
     private Properties configureProperties() {
         Properties props = new Properties();
         props.put(ConsumerConfig.CLIENT_ID_CONFIG, "UserConsumer");
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, "ConsumerGroup1");
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "ConsumerGroupUser");
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_ADDRESS_LOCAL);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, LongDeserializer.class.getName());
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, UserDeserializer.class.getName());

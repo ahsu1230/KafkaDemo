@@ -1,5 +1,6 @@
 import React from "react";
 import "./userAdd.sass";
+import moment from "moment";
 import SelectLevels from "./selectLevels.js";
 import { USER_NORMAL } from "../userStates.js";
 
@@ -31,7 +32,8 @@ class UserAddSection extends React.Component {
             username: this.state.username,
             level: this.state.level,
             isOnline: true,
-            state: USER_NORMAL,
+            queueState: USER_NORMAL,
+            queueStateUpdatedAt: moment().toJSON()
         };
         this.props.onAddUser(user);
     };

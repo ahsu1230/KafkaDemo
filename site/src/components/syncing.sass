@@ -1,0 +1,38 @@
+@import '../_constants.sass'
+
+#syncer
+    position: fixed
+    left: 2vw
+    bottom: 2vh
+    padding: 8px 16px
+    width: 108px
+    background-color: $colorWhite
+    border-radius: 8px
+    box-shadow: 0 0 8px 4px rgba(0,0,0,0.1)
+
+    .content
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+        align-items: center
+
+        &.synced .image-wrapper
+            background-color: $colorGreen
+
+        .image-wrapper
+            position: relative
+            width: 24px
+            height: 24px
+            margin-right: 4px
+            border-radius: 50%
+            background-color: $colorAccent
+
+            img
+                position: absolute
+                top: 50%
+                left: 50%
+                transform: translate(-50%, -50%)
+                width: 16px
+
+        h5
+            margin: 0
