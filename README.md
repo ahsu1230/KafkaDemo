@@ -4,6 +4,7 @@ This is a Kafka Demo and a report of what I've found in my research.
 
 ## Running the demo
 
+- Make sure ZooKeeper and Kafka cluster server is running.
 - Run `MainService.java` found in `kafka/src/main/java/services/`. No special arguments required.
 - Run `npm start` found in `site` to spin up the website.
 
