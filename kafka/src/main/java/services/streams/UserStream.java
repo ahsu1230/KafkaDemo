@@ -34,8 +34,11 @@ public class UserStream {
         streams.start();
     }
 
-    public void close() {
+    public void close(boolean cleanUp) {
         streams.close();
+        if (cleanUp) {
+            streams.cleanUp();
+        }
     }
 
     private Properties configureProperties() {
@@ -84,7 +87,7 @@ public class UserStream {
                 ).mapValues(values -> {
                     if (values != null) {
                         values.getList().forEach(value -> {
-                            LOGGER.trace("*** after material values: " + value.username);
+                            LOGGER.trace("*** after materialized values: " + value.username);
                         });
                     }
                     return values;

@@ -4,6 +4,7 @@ import com.sun.istack.internal.Nullable;
 import services.entities.MatchStat;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 public class MatchStatsStore {
@@ -12,7 +13,7 @@ public class MatchStatsStore {
      * TODO: Ideally, we want this to use KafkaConnect and use a real DBstore like MySQL.
      */
     // This is a store of userId -> MatchStat object
-    private static Map<Long, MatchStat> statMap = new HashMap<>();
+    private static Map<Long, MatchStat> statMap = new ConcurrentHashMap<>();
 
     @Nullable
     public static MatchStat getMatchStat(long userId) {

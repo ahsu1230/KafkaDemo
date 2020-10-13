@@ -1,15 +1,10 @@
 package services.streams;
 
-import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.*;
 import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.KStream;
-import org.apache.kafka.streams.kstream.KeyValueMapper;
 import org.apache.kafka.streams.kstream.Produced;
-import org.apache.kafka.streams.processor.RecordContext;
-import org.apache.kafka.streams.processor.StreamPartitioner;
-import org.apache.kafka.streams.processor.TopicNameExtractor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import services.common.KafkaUtils;
@@ -17,9 +12,7 @@ import services.common.Topics;
 import services.entities.Match;
 import services.entities.User;
 import services.serializers.MatchSerde;
-import services.serializers.UserDeserializer;
 import services.serializers.UserSerde;
-import services.serializers.UserSerializer;
 import services.stores.UserStore;
 
 import java.time.Instant;
@@ -44,8 +37,11 @@ public class MatchToUserStream {
         streams.start();
     }
 
-    public void close() {
+    public void close(boolean cleanUp) {
         streams.close();
+        if (cleanUp) {
+            streams.cleanUp();
+        }
     }
 
     private Properties configureProperties() {

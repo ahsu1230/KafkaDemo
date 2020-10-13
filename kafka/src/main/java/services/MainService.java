@@ -34,9 +34,10 @@ public class MainService {
             public void run() {
                 LOGGER.info("Process shutting down...");
                 LOGGER.info("Closing all streams.");
-                matchToMatchStream.close();
-                matchToUserStream.close();
-                userStream.close();
+                boolean cleanUp = false;    // Enable this as true if you want to clear your stream states.
+                matchToMatchStream.close(cleanUp);
+                matchToUserStream.close(cleanUp);
+                userStream.close(cleanUp);
                 latch.countDown();
             }
         });

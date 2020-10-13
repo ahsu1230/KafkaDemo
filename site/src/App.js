@@ -25,7 +25,7 @@ class App extends React.Component {
             setTimeout(() => {
                 this.fetchData();
             }, 2000);
-        }, 10000);
+        }, 8000);
     }
 
     componentWillUnmount() {

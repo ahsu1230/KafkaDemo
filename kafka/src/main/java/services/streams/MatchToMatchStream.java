@@ -3,21 +3,14 @@ package services.streams;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.*;
 import org.apache.kafka.streams.kstream.KStream;
-import org.apache.kafka.streams.kstream.KeyValueMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import services.common.KafkaUtils;
 import services.common.Topics;
 import services.entities.Match;
-import services.entities.User;
 import services.serializers.MatchSerde;
-import services.stores.UserStore;
 
-import java.time.Instant;
-import java.util.Date;
-import java.util.List;
 import java.util.Properties;
-import java.util.stream.Collectors;
 
 public class MatchToMatchStream {
     private static final Logger LOGGER = LogManager.getLogger(MatchToMatchStream.class);
@@ -35,8 +28,11 @@ public class MatchToMatchStream {
         streams.start();
     }
 
-    public void close() {
+    public void close(boolean cleanUp) {
         streams.close();
+        if (cleanUp) {
+            streams.cleanUp();
+        }
     }
 
     private Properties configureProperties() {

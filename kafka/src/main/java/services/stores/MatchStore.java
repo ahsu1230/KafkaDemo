@@ -4,6 +4,7 @@ import com.sun.istack.internal.Nullable;
 import services.entities.Match;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 public class MatchStore {
@@ -11,7 +12,7 @@ public class MatchStore {
      * This is very ghetto. Don't do this.
      * TODO: Ideally, we want this to use KafkaConnect and use a real DBstore like MySQL.
      */
-    private static Map<String, Match> matchMap = new HashMap<>();
+    private static Map<String, Match> matchMap = new ConcurrentHashMap<>();
 
     @Nullable
     public static Match getMatch(String matchId) {

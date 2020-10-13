@@ -4,6 +4,7 @@ import com.sun.istack.internal.Nullable;
 import services.entities.User;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 public class UserStore {
@@ -11,7 +12,7 @@ public class UserStore {
      * This is very ghetto. Don't do this.
      * TODO: Ideally, we want this to use KafkaConnect and use a real DBstore like MySQL.
      */
-    private static Map<Long, User> userMap = new HashMap<>();
+    private static Map<Long, User> userMap = new ConcurrentHashMap<>();
 
     @Nullable
     public static User getUser(long userId) {
